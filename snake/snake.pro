@@ -25,11 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    food.cpp \
         main.cpp \
         mainwindow.cpp \
     snake.cpp
 
 HEADERS += \
+    food.h \
         mainwindow.h \
     snake.h
 

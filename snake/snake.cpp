@@ -44,6 +44,11 @@ QVector<QGraphicsRectItem *> &Snake::getBlocks()
     return snake_blocks;
 }
 
+QPointF Snake::getHeadPos()
+{
+    return snake_blocks.last()->pos();
+}
+
 void Snake::move() {
     snake_blocks.first()->setPos(snake_blocks.last()->pos() + QPointF(10 * direction[0], 10 * direction[1]));
 

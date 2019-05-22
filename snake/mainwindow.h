@@ -2,11 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <snake.h>
-#include <QTimer>
-#include <QKeyEvent>
 
 class QGraphicsScene;
+class QTimer;
+class QKeyEvent;
+class Snake;
+class Food;
 
 namespace Ui {
 class MainWindow;
@@ -23,11 +24,18 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *event);
 
+private slots:
+    void game_move();
+
 private:
+    void CheckFood();
+
     Ui::MainWindow *ui;
+
     QGraphicsScene *mainscene;
-    Snake          *player_snake;
     QTimer         *timer;
+    Snake          *player_snake;
+    Food           *food;
 };
 
 #endif // MAINWINDOW_H

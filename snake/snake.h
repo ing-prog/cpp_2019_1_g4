@@ -11,6 +11,8 @@ public:
     explicit Snake(QObject *parent = nullptr);
     QVector<QGraphicsRectItem *> &getBlocks();
 
+    QPointF getHeadPos();
+
     void GoUp();
     void GoDown();
     void GoLeft();
