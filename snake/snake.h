@@ -18,14 +18,15 @@ public:
     void GoLeft();
     void GoRight();
 
+    void Enlarge();
+    void CheckWall();
+
 signals:
 
 public slots:
     void move();
 
 private:
-    void CheckWall();
-
     QVector<QGraphicsRectItem*> snake_blocks;
     QVector<int> direction;
     bool moved = false;

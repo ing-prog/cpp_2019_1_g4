@@ -95,6 +95,22 @@ void Snake::GoRight()
     moved = false;
 }
 
+void Snake::Enlarge()
+{
+    QGraphicsRectItem* new_snake_block = new QGraphicsRectItem();
+    new_snake_block->setRect(0, 0, 9, 9);
+    new_snake_block->setPos(getHeadPos());
+    QBrush brush;
+    QPen pen;
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::blue);
+    pen.setColor(Qt::darkGreen);
+    new_snake_block->setBrush(brush);
+    new_snake_block->setPen(pen);
+
+    snake_blocks.push_front(new_snake_block);
+}
+
 void Snake::CheckWall()
 {
     if (snake_blocks.last()->x() > 490)

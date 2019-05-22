@@ -50,6 +50,9 @@ void MainWindow::game_move()
     // Движение змейки
     player_snake->move();
 
+    // Проверка на выход за границу сцены
+    player_snake->CheckWall();
+
     // Проверка на столкновение с едой
     CheckFood();
 }
@@ -58,7 +61,9 @@ void MainWindow::CheckFood()
 {
     if (player_snake->getHeadPos() == food->pos())
     {
-        // enlarge сделать здесь
+        player_snake->Enlarge();
+
+        mainscene->addItem(player_snake->getBlocks().first());
 
         // Новая позиция еды
         do
