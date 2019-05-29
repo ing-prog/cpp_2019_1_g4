@@ -18,8 +18,9 @@ public:
     void GoLeft();
     void GoRight();
 
-    void Enlarge();
+    void enlarge();
     void CheckWall();
+    QList<QGraphicsRectItem*> CheckSelfCollision();
 
 signals:
 
@@ -27,6 +28,8 @@ public slots:
     void move();
 
 private:
+
+
     QVector<QGraphicsRectItem*> snake_blocks;
     QVector<int> direction;
     bool moved = false;

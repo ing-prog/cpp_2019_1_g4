@@ -2,6 +2,7 @@
 
 #include <QBrush>
 #include <QPen>
+#include <algorithm>
 
 Snake::Snake(QObject *parent) :
     QObject(parent)
@@ -95,22 +96,6 @@ void Snake::GoRight()
     moved = false;
 }
 
-void Snake::Enlarge()
-{
-    QGraphicsRectItem* new_snake_block = new QGraphicsRectItem();
-    new_snake_block->setRect(0, 0, 9, 9);
-    new_snake_block->setPos(getHeadPos());
-    QBrush brush;
-    QPen pen;
-    brush.setStyle(Qt::SolidPattern);
-    brush.setColor(Qt::blue);
-    pen.setColor(Qt::darkGreen);
-    new_snake_block->setBrush(brush);
-    new_snake_block->setPen(pen);
-
-    snake_blocks.push_front(new_snake_block);
-}
-
 void Snake::CheckWall()
 {
     if (snake_blocks.last()->x() > 490)
@@ -129,4 +114,34 @@ void Snake::CheckWall()
     {
         snake_blocks.last()->setPos(snake_blocks.last()->x(), 490);
     }
+}
+
+QList<QGraphicsRectItem*> Snake::CheckSelfCollision()
+{
+    QList<QGraphicsRectItem*> deleted_list;
+    auto collidedBlocks = snake_blocks.last()->collidingItems();
+    if (!collidedBlocks.empty())
+    {
+        auto collidedBlockIterator = std::find(snake_blocks.begin(), snake_blocks.end(), collidedBlocks.first());
+        for(auto it = snake_blocks.begin(); it != collidedBlockIterator; ++it)
+            deleted_list.push_back(*it);
+        snake_blocks.erase(snake_blocks.begin(), collidedBlockIterator);
+    }
+    return deleted_list;
+}
+
+void Snake::enlarge()
+{
+    QGraphicsRectItem* new_snake_block = new QGraphicsRectItem();
+    new_snake_block->setRect(0, 0, 9, 9);
+    new_snake_block->setPos(getHeadPos());
+    QBrush brush;
+    QPen pen;
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::blue);
+    pen.setColor(Qt::darkGreen);
+    new_snake_block->setBrush(brush);
+    new_snake_block->setPen(pen);
+
+    snake_blocks.push_front(new_snake_block);
 }
