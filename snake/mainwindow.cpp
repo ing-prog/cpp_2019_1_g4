@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     food(new Food)
 {
     ui->setupUi(this);
+    ui->label->hide();
     setFocus();
 
     for (auto i = player_snake->getBlocks().begin(); i < player_snake->getBlocks().end(); i++)
@@ -84,4 +85,51 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Down)  { player_snake->GoDown();  }
     if (event->key() == Qt::Key_Left)  { player_snake->GoLeft();  }
     if (event->key() == Qt::Key_Right) { player_snake->GoRight(); }
+    if (event->key() == Qt::Key_Escape){ TogglePause();           }
+}
+
+void MainWindow::TogglePause()
+{
+    if (timer->isActive())
+    {
+        ui->label->show();
+        timer->stop();
+    }
+    else
+    {
+        ui->label->hide();
+        timer->start();
+    }
+}
+
+void MainWindow::NewGame()
+{
+    timer->stop();
+    mainscene->clear();
+    delete player_snake;
+
+    food = new Food;
+    player_snake = new Snake;
+
+    for (auto i = player_snake->getBlocks().begin(); i < player_snake->getBlocks().end(); i++)
+    {
+        mainscene->addItem(*i);
+    }
+
+    // Начальная позиция еды
+    do
+    {
+        food->new_food_pos();
+    } while (!food->collidingItems().empty());
+
+    mainscene->addItem(food);
+
+    setFocus();
+
+    timer->start();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    NewGame();
 }
