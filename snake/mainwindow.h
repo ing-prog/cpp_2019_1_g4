@@ -27,8 +27,12 @@ protected:
 private slots:
     void game_move();
 
+    void on_pushButton_clicked();
+
 private:
     void CheckFood();
+    void TogglePause();
+    void NewGame();
 
     Ui::MainWindow *ui;
 
