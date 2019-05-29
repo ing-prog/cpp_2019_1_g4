@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setScene(mainscene);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(game_move()));
-    timer->start(100);
+    timer->start(30);
 }
 
 MainWindow::~MainWindow()
@@ -50,21 +50,26 @@ void MainWindow::game_move()
     // Движение змейки
     player_snake->move();
 
-    // Проверка на выход за границу сцены
     player_snake->CheckWall();
 
     // Проверка на столкновение с едой
     CheckFood();
+
+    auto deleted_items = player_snake->CheckSelfCollision();
+    for (auto i = deleted_items.begin(); i < deleted_items.end(); i++)
+    {
+        mainscene->removeItem(*i);
+    }
 }
 
 void MainWindow::CheckFood()
 {
     if (player_snake->getHeadPos() == food->pos())
     {
-        player_snake->Enlarge();
+        // enlarge сделать здесь
+        player_snake->enlarge();
 
         mainscene->addItem(player_snake->getBlocks().first());
-
         // Новая позиция еды
         do
         {
